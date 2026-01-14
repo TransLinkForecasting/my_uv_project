@@ -1,0 +1,8 @@
+tlpytools
+numpy
+pandas
+numba
+openmatrix
+pyarrow
+pyyaml
+polars
