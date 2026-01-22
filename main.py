@@ -17,6 +17,7 @@ import os
 # Import tlpytools modules - this automatically loads .env files via env_config
 from tlpytools.sql_server import azure_td_tables
 from tlpytools.adls_server import adls_tables
+from tlpytools.azure_credential import get_azure_credential
 
 # Explicitly ensure environment is loaded (belt and suspenders approach)
 try:
@@ -68,14 +69,17 @@ def main():
     print(f"Created dataframe with shape: {df.shape}")
     print(df)
 
-    # 2. Write dataframe to Azure SQL - Comment out this section if you only have read only access
-    print("\n2. Writing dataframe to Azure SQL...")
-    table_spec = {"example": f"{AZURE_SQL_SCHEMA}.{AZURE_SQL_TABLE}"}
-    df_dict = {"example": df}
-    azure_td_tables.write_tables(table_spec, df_dict)
-    print(f"Written to {AZURE_SQL_SCHEMA}.{AZURE_SQL_TABLE}")
+    # # 2. Write dataframe to Azure SQL - Comment out this section if you only have read only access
+    # print("\n2. Writing dataframe to Azure SQL...")
+    # table_spec = {"example": f"{AZURE_SQL_SCHEMA}.{AZURE_SQL_TABLE}"}
+    # df_dict = {"example": df}
+    # azure_td_tables.write_tables(table_spec, df_dict)
+    # print(f"Written to {AZURE_SQL_SCHEMA}.{AZURE_SQL_TABLE}")
 
     # 3. Write dataframe to ADLS
+    get_azure_credential(
+        force_refresh=True
+    )  # Ensure credentials are fresh, required if changing credentials
     print("\n3. Writing dataframe to ADLS...")
     os.makedirs(LOCAL_TEMP_DIR, exist_ok=True)
     df.to_csv(os.path.join(LOCAL_TEMP_DIR, FILE_NAME), index=False)
