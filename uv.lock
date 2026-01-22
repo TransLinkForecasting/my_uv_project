@@ -716,7 +716,7 @@ requires-dist = [
     { name = "polars", specifier = ">=1.37.1" },
     { name = "pyarrow", specifier = ">=22.0.0" },
     { name = "pyyaml", specifier = ">=6.0.3" },
-    { name = "tlpytools", git = "https://github.com/TransLinkForecasting/tlpytools.git?rev=hotfix_sqlserver" },
+    { name = "tlpytools", specifier = ">=0.1.5" },
 ]
 
 [[package]]
@@ -1683,8 +1683,8 @@ wheels = [
 
 [[package]]
 name = "tlpytools"
-version = "0.1.14"
-source = { git = "https://github.com/TransLinkForecasting/tlpytools.git?rev=hotfix_sqlserver#6e89324d0e29f426c027ec426c2ca41d6f3511a0" }
+version = "0.1.15"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "azure-core" },
     { name = "azure-identity" },
@@ -1703,6 +1703,10 @@ dependencies = [
     { name = "python-dotenv" },
     { name = "pyyaml" },
     { name = "sqlalchemy" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/74/2a/ca88e99e9120d7c159eb8d05e8c0fe23cebc4a30d21a55996f1c15601ee0/tlpytools-0.1.15.tar.gz", hash = "sha256:fec24467a80d5f29500f665c122b3265f86c2ec5086585f2e767cde4397800ca", size = 251764, upload-time = "2026-01-22T20:40:30.663Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/88/ae/6e6b46e94fbf50e7db7487d98f23d49117486dcc8434923fe0147ae8ccff/tlpytools-0.1.15-py3-none-any.whl", hash = "sha256:f8f94c35c837276660bd818a82b422fdaca19ed0ff06a35e8fe41046f83882e4", size = 95933, upload-time = "2026-01-22T20:40:29.538Z" },
 ]
 
 [[package]]

@@ -15,7 +15,7 @@ import pandas as pd
 import os
 
 # Import tlpytools modules - this automatically loads .env files via env_config
-from tlpytools.sql_server import azure_td_tables
+from tlpytools.sql_server import azure_sql_tables
 from tlpytools.adls_server import adls_tables
 from tlpytools.azure_credential import get_azure_credential
 
@@ -37,15 +37,7 @@ AZURE_SQL_TABLE = "example_table"
 # Get ADLS URL from environment variable with validation
 ORCA_ADLS_URL = os.getenv("ORCA_ADLS_URL")
 if not ORCA_ADLS_URL:
-    print(
-        "DEBUG: Environment variables available:",
-        [k for k in os.environ.keys() if "ORCA" in k or "TLPT" in k],
-    )
-    raise ValueError(
-        "Environment variable 'ORCA_ADLS_URL' is not set. "
-        "Please set it to your Azure Data Lake Storage URL "
-        "(e.g., https://yourstorageaccount.dfs.core.windows.net)"
-    )
+    raise ValueError("Environment variable 'ORCA_ADLS_URL' is not set. ")
 ADLS_BASE_PATH = f"https://{ORCA_ADLS_URL}/dev/uv_example"
 LOCAL_TEMP_DIR = "C:/Temp"
 FILE_NAME = "example_data.csv"
@@ -73,28 +65,28 @@ def main():
     # print("\n2. Writing dataframe to Azure SQL...")
     # table_spec = {"example": f"{AZURE_SQL_SCHEMA}.{AZURE_SQL_TABLE}"}
     # df_dict = {"example": df}
-    # azure_td_tables.write_tables(table_spec, df_dict)
+    # azure_sql_tables.write_tables(table_spec, df_dict)
     # print(f"Written to {AZURE_SQL_SCHEMA}.{AZURE_SQL_TABLE}")
 
-    # 3. Write dataframe to ADLS
-    get_azure_credential(
-        force_refresh=True
-    )  # Ensure credentials are fresh, required if changing credentials
-    print("\n3. Writing dataframe to ADLS...")
-    os.makedirs(LOCAL_TEMP_DIR, exist_ok=True)
-    df.to_csv(os.path.join(LOCAL_TEMP_DIR, FILE_NAME), index=False)
-    adls_uri = f"{ADLS_BASE_PATH}/{FILE_NAME}"
-    adls_tables.write_table_by_name(adls_uri, LOCAL_TEMP_DIR, FILE_NAME)
-    print(f"Written to {adls_uri}")
-
-    # 4. Read dataframe from Azure SQL
-    print("\n4. Reading dataframe from Azure SQL...")
-    sql_df_dict = azure_td_tables.read_tables(
+    # 3. Read dataframe from Azure SQL
+    print("\n3. Reading dataframe from Azure SQL...")
+    sql_df_dict = azure_sql_tables.read_tables(
         schema=AZURE_SQL_SCHEMA, table=AZURE_SQL_TABLE, source="server"
     )
     sql_df = sql_df_dict[f"{AZURE_SQL_SCHEMA}.{AZURE_SQL_TABLE}"]
     print(f"Read from Azure SQL - shape: {sql_df.shape}")
     print(sql_df)
+
+    # 4. Write dataframe to ADLS
+    get_azure_credential(
+        force_refresh=True
+    )  # Ensure credentials are fresh, required if changing credentials
+    print("\n4. Writing dataframe to ADLS...")
+    os.makedirs(LOCAL_TEMP_DIR, exist_ok=True)
+    df.to_csv(os.path.join(LOCAL_TEMP_DIR, FILE_NAME), index=False)
+    adls_uri = f"{ADLS_BASE_PATH}/{FILE_NAME}"
+    adls_tables.write_table_by_name(adls_uri, LOCAL_TEMP_DIR, FILE_NAME)
+    print(f"Written to {adls_uri}")
 
     # 5. Read dataframe from ADLS
     print("\n5. Reading dataframe from ADLS...")

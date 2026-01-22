@@ -12,5 +12,5 @@ dependencies = [
     "polars>=1.37.1",
     "pyarrow>=22.0.0",
     "pyyaml>=6.0.3",
-    "tlpytools @ git+https://github.com/TransLinkForecasting/tlpytools.git@hotfix_sqlserver",
+    "tlpytools>=0.1.5",
 ]
