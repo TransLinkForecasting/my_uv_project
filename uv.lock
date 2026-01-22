@@ -1684,7 +1684,7 @@ wheels = [
 [[package]]
 name = "tlpytools"
 version = "0.1.14"
-source = { git = "https://github.com/TransLinkForecasting/tlpytools.git?rev=hotfix_sqlserver#d66a544f099f98ce0159d8b1956ad0dd724ab355" }
+source = { git = "https://github.com/TransLinkForecasting/tlpytools.git?rev=hotfix_sqlserver#6e89324d0e29f426c027ec426c2ca41d6f3511a0" }
 dependencies = [
     { name = "azure-core" },
     { name = "azure-identity" },
